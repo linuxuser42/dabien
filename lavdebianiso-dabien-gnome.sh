@@ -64,8 +64,8 @@ lb config --bootappend-live "boot=live components persistence persistence-encryp
 rm -rf config/includes.chroot/*
 if [ "$desktop" == "gnome" ]; then
 # new mac'ish desktop 
-  wget -O skel.tgz http://wwvaldemar.dk/debian9osx-skel.tgz
-  wget -O dabienscripts.tgz http://wwvaldemar.dk/dabienscripts.tgz
+  wget -O skel.tgz https://github.com/linuxuser42/dabien/raw/master/debian9osx-skel.tgz
+  wget -O dabienscripts.tgz https://github.com/linuxuser42/dabien/raw/master/dabienscripts.tgz
   mkdir -p /tmp/untar
   mkdir -p /tmp/untar2
   tar -C /tmp/untar -xvzf skel.tgz
