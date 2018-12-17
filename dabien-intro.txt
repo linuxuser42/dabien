@@ -1,0 +1,20 @@
+Kan du finde ud af at starte en PC op fra USB?
+ 
+Forestil dig at din PC ligger i din lomme og bare er en krypteret USB nøgle, du kan proppe i alle PC'er og starte op. Hvis du låner en vilkårlig - UEFI eller BIOS - baseret PC eller Mac kan du blot starte maskinen op fra nøglen uden at bruge PC'ens egen harddisk overhovedet. Du vil ikke være afhængig af nogen speciel PC/Mac, bare du kan skaffe en vilkårlig PC/Mac med 4GB ram, der ikke er mere end 5 år gammel.
+
+Forestil dig en ultracool grafisk platform der er en blanding mellem Windows, med traditionel startknap og kontrol panel, og med OSX-like panel for oven, en dash med program ikoner, og en Mac-agtig windows grid function med programvælger, der aktiveres når man fører musen op i venstre hjørne.
+ 
+Forestil dig så tilsidst en PC med alt det nødvendige installeret. For eksempel til dansk kontorbrug med LibreOffice, billedbehandling med Inkscape, Gthumb og Gimp, mediacenter med Kodi, videnskableligt arbejde med Octave og Eclipse programudvikling og ikke mindst: Bare gå på nettet med Googles Chromium browser eller Firefox. 
+... og at du nemt kan installere mere på USB nøglen fra en uudtømmelig kilde af gratis opensource programmer og spil.
+
+Så har du definitionen på en Dabien nøgle. Dabien nøglen indeholder en af de mest stabile og ældste Linux distribtioner, Debian. Debian er også fundamentet for de mere kendte Linux distribioner Mint og Ubuntu.
+Dabien nøglen er GPL'ed (på Github: https://github.com/linuxuser42/dabien) og en 'compileret' version per 15. december 2018 kan downloades fra http://wwvaldemar.dk/debianstretchdk, nærmere http://wwvaldemar.dk/debianstretchdk/?full#10 . 
+
+Hvordan laves den krypterede nøgle?  
+Når du har lagt iso'en på en DVD eller USB (i Linux fra terminalen vha. 'sudo if=debianstretchdkXYX.iso of=/dev/sdX bs=4M' - i windows vha Rufus https://rufus.ie/da_DK.html) startes op fra denne USB/DVD. 
+Programmet 'dabien Live USB' køres - tryk på windowstast og tast 'dabien'. Her skal man have en ekstra USB klar,- den der skal være den rigtige nøgle med krypteret harddisk. 
+Nøglen anbefales at være på 8GB eller derover, afhængig af hvor meget du vil installere/gemme på den. Bemærk: Den del af nøglen der laves om til krypteret harddisk kan kun læses med selve nøglen eller et andet linux system der har cryptsetup og helst 'gnome disks' installeret. 
+Man bliver under generering af nøglen spurgt om at skrive YES og den samme nye passphrase (kodeord) 3 gange. Den skal vælges så sikker som muligt afhængig af, hvad man gemmer på nøglen. Da nøglen bruger LUKS som kryptering, er den forberedt på krypteringskravet i Persondataforordringen, men du skal altså bruge et godt, langt kodeord, ellers kan det være ligemeget!
+
+Flere nøgler som julegave til alle dine venner?
+En kørende dabien nøgle kan fremstille nye nøgler. Kør programmet 'dabien Live USB'.
