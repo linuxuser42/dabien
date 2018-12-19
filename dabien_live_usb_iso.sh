@@ -4,8 +4,19 @@ if [[ ${EUID} -ne 0 ]]; then
   echo "this script must be executed with as root"
   exit 1
 fi
+if [ -f "$1" ]; then
+  iso=$1
+else
+  iso="./live-image-amd64.hybrid.iso"
+fi  
 
-iso=$1
+echo Using iso file $iso
+
+
+if [[ -z "${iso}" || ! -f ${iso} || ! -s ${iso} ]]; then
+  echo "parameter 1 must be source ISO image"
+  exit 1
+fi
 
 zenity --title 'Action needed' --info --text "Pull-out target USB key and click OK and wait"  
 sleep 5
