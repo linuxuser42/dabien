@@ -20,8 +20,17 @@ rm /tmp/parts1 /tmp/parts2
 usbfdisk=`fdisk -l $dev | head -1`
 zenity --title "Approve USB key device"  --question --text "Scanned device set to $dev - $usbfdisk - continue?" || exit 0
 
-
-
+zenity --title "Clone everything?"  --question --text "Clone everything including the personal data and installed programs?" && cloneeverything=1
+if [ ! -z "${cloneeverything}" ] ; then
+  mounted_presistence_dir=`mount |grep /lib/live/mount/persistence/ | awk '{print $3}'`	
+  if [ ! -d "${mounted_presistence_dir}/rw" ]; then
+    zenity --title "ERROR - persistence not found"  --question --text "Cannot lookup ${mounted_presistence_dir}/rw"
+    exit 1
+  fi
+  zenity --info --text "Cloning everything" --timeout 2
+else
+  zenity --info --text "Cloning only the key" --timeout 2
+fi
 
 if [[ -z "${dev}" || ! -b ${dev} ]]; then
   echo "param 2 must be target block device"
@@ -91,7 +100,13 @@ cp -ar ${tmpiso}/* ${tmplive}
 sync
 echo "75" ; sleep 1
 echo "# Creating persistence.conf"
-echo "/ union" > ${tmppersistence}/persistence.conf
+if [ ! -z "${cloneeverything}" ] && [ -d "${mounted_presistence_dir}/rw" ] && [ -d "${tmppersistence}/" ] ; then
+  echo "77" ; sleep 1
+  echo "# Syncing ${mounted_presistence_dir}/ to ${tmppersistence}/ ..."
+  rsync -avH --delete ${mounted_presistence_dir}/ ${tmppersistence}/
+else
+  echo "/ union" > ${tmppersistence}/persistence.conf
+fi
 echo "80" ; sleep 1
 echo "# Installing UEFI grub"
 echo grub-install --removable --target=x86_64-efi --boot-directory=${tmplive}/boot/ --efi-directory=${tmpefi} ${dev}
