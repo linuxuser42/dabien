@@ -8,7 +8,7 @@ Forestil dig så tilsidst en PC med alt det nødvendige installeret. For eksempe
 ... og at du nemt kan installere mere på USB nøglen fra en uudtømmelig kilde af gratis opensource programmer og spil.
 
 Så har du definitionen på en Dabien nøgle. Dabien nøglen indeholder en af de mest stabile og ældste Linux distribtioner, Debian. Debian er også fundamentet for de mere kendte Linux distribioner Mint og Ubuntu.
-Dabien nøglen er GPL'ed (på Github: https://github.com/linuxuser42/dabien) og en 'compileret' version per 15. december 2018 kan downloades fra http://wwvaldemar.dk/debianstretchdk, nærmere http://wwvaldemar.dk/debianstretchdk/?full#10 . 
+Dabien nøglen er GPL'ed (på Github: https://github.com/linuxuser42/dabien) og en 'compileret' version per 18. december 2018 kan downloades fra http://wwvaldemar.dk/debianstretchdk, nærmere http://wwvaldemar.dk/debianstretchdk/?full#10 . 
 
 Hvordan laves den krypterede nøgle?  
 Når du har lagt iso'en på en DVD eller USB (i Linux fra terminalen vha. 'sudo if=debianstretchdkXYX.iso of=/dev/sdX bs=4M' - i windows vha Rufus https://rufus.ie/da_DK.html) startes op fra denne USB/DVD. 
@@ -17,4 +17,8 @@ Nøglen anbefales at være på 8GB eller derover, afhængig af hvor meget du vil
 Man bliver under generering af nøglen spurgt om at skrive YES og den samme nye passphrase (kodeord) 3 gange. Den skal vælges så sikker som muligt afhængig af, hvad man gemmer på nøglen. Da nøglen bruger LUKS som kryptering, er den forberedt på krypteringskravet i Persondataforordringen, men du skal altså bruge et godt, langt kodeord, ellers kan det være ligemeget!
 
 Flere nøgler som julegave til alle dine venner?
-En kørende dabien nøgle kan fremstille nye nøgler. Kør programmet 'dabien Live USB'.
+En kørende dabien nøgle kan fremstille nye nøgler. Kør programmet 'dabien Live USB'. Du kan vælge at klone med alle personlige data/programmer eller bare clone den rå nøgle som du startede med. 
+Pas på med ikke at hive USB nøgler ud men der skrives! Dette kan nemt ødelægge hardwaren! Brug eject knappen eller sluk inden.
+
+Backup løsning?
+Lav to nøgler og monter den anden også mens den første kører. Derefter kør 'dabien Backup'
