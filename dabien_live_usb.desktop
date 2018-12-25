@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=dabien Live Usb
+Comment=Make a dabien key
+Exec=gksu /home/user/dabien/dabien_live_usb.sh
+Icon=/home/user/dabien/dabien.svg
+Type=Application
+Path=/home/user/dabien
+Keywords=accessories;system;dabien;clone;make;
