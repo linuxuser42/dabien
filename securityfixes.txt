@@ -1,0 +1,11 @@
+To secure the key 
+
+1. Set the password for user 'user' to something else. Its usually 'live' unless already set.
+   Howto: In a terminal: sudo passwd user 
+2. Disable sudo without password
+   Howto: In a terminal: sudo sed -i 's#NOPASSWD#PASSWD#g' /etc/sudoers.d/live
+3. Disable autoatic login in gdm
+   Howto: In a terminal: sudo sed -i 's/AutomaticLoginEnable/#AutomaticLoginEnable/g' /etc/gdm3/daemon.conf
+4. Set the passphrase with the Gnome Disks (danish 'diske') tool
+
+
