@@ -1,11 +1,19 @@
-To secure the key 
+*VERY IMPORTANT FOR SECURITY*
 
-1. Set the password for user 'user' to something else. Its usually 'live' unless already set.
-   Howto: In a terminal: sudo passwd user 
+As it is the key is meant for fun, e.g. to stuff that is not 100 percent secure. It has a hard luks-encryption, yes, and thats
+fine for most people, but to make it more solid for professionals, here are five must-do's.
+
+To secure the key 
+1. Set the password for user 'user' to something else. Its usually 'live' unless already set. Use 14 chars at least.
+   Howto: In a terminal: sudo passwd user - OR just use the account settings dialog
 2. Disable sudo without password
    Howto: In a terminal: sudo sed -i 's#NOPASSWD#PASSWD#g' /etc/sudoers.d/live
 3. Disable autoatic login in gdm
    Howto: In a terminal: sudo sed -i 's/AutomaticLoginEnable/#AutomaticLoginEnable/g' /etc/gdm3/daemon.conf
-4. Set the passphrase with the Gnome Disks (danish 'diske') tool
+4. Disable the live ttys
+   Howto: In a terminal: apt-get remove live-config-systemd  
+5. Set the passphrase (14 chars at least) with the Gnome Disks (danish 'diske') tool
+
+---
 
 
