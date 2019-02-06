@@ -9,8 +9,8 @@ To secure the key
 2. Disable sudo without password
    Howto: In a terminal: sudo sed -i 's#NOPASSWD#PASSWD#g' /etc/sudoers.d/live
 3. Disable automatic login in gdm
-   Howto: In a terminal: sudo sed -i 's/AutomaticLoginEnable/#AutomaticLoginEnable/g' /etc/gdm3/daemon.conf
-4. Disable the live ttys
+   Howto: In a terminal: sudo sed -i 's/AutomaticLogin/#AutomaticLogin/g' /etc/gdm3/daemon.conf && sudo sed -i 's/TimedLogin/#TimedLogin/g' /etc/gdm3/daemon.conf
+4. Disable the live ttys 
    Howto: In a terminal: apt-get remove live-config-systemd  
 5. Set the passphrase (14 chars at least) with the Gnome Disks (danish 'diske') tool
 
