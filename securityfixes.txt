@@ -13,6 +13,7 @@ To secure the key
 4. Disable the live ttys 
    Howto: In a terminal: apt-get remove live-config-systemd  
 5. Set the passphrase (14 chars at least) with the Gnome Disks (danish 'diske') tool
+6. Add a Firewall, e.g doing the attached script ufw_firewall.sh
 
 ---
 
