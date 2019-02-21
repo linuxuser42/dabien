@@ -6,5 +6,5 @@ echo "100" ; sleep 1
 echo "#Backup done" 
 ) |
 zenity --progress --title "Backing up home data " \
-	--text "Running rsnapshot" --percentage=0 --timeout=2 || exit 1
+	--text "Running rsnapshot" --percentage=0 || exit 1
 
