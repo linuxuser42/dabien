@@ -60,6 +60,7 @@ echo gthumb >> config/package-lists/installer.list.chroot
 echo libcurl3  libgconf-2-4 libssl1.0.2 >> config/package-lists/installer.list.chroot
 echo evolution-ews pidgin pidgin-sipe tigervnc-viewer >> config/package-lists/installer.list.chroot
 echo grub-efi-amd64 >> config/package-lists/installer.list.chroot
+echo git ufw >> config/package-lists/installer.list.chroot
 lb config --bootappend-live "boot=live components persistence persistence-encryption=luks locales=da_DK.UTF-8 keyboard-layouts=dk "
 rm -rf config/includes.chroot/*
 if [ "$desktop" == "gnome" ]; then
