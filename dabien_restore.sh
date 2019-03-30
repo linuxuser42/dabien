@@ -5,6 +5,6 @@ rsync -avH --delete /media/user/persistence/alpha.0/localhost/home/user /home ||
 echo "100" ; sleep 1
 echo "#Backup done" 
 ) |
-zenity --progress --title "Backing up home data " \
+zenity --progress --title "Restoring home data " \
 	--text "Running rsnapshot" --percentage=0 || exit 1
 

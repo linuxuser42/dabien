@@ -1,6 +1,6 @@
 #!/bin/bash
 # does everything from securityfixes - except disks fix
-exo hardening ongoing
+echo hardening ongoing
 sudo passwd user
 sudo /home/user/dabien/ufw_firewall.sh
 sudo apt-get -y remove live-config-systemd  
