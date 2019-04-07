@@ -79,4 +79,10 @@ cp -rT /tmp/untar2/home/user config/includes.chroot/etc/skel
 mkdir -p config/includes.chroot/usr/share/applications 
 cp -rT /tmp/untar2/usr/share/applications config/includes.chroot/usr/share/applications 
 lb build
+if [ -f "live-image-amd64.hybrid.iso" ]; then
+	isoname=dabien-${desktop}-amd64-$(date "+%Y%m%d").iso
+	mv live-image-amd64.hybrid.iso ${isoname}
+	mv live-image-amd64.packages ${isoname}.packages.txt
+	shasum ${isoname} binary/live/* >${isoname}.shasum
+fi
 exit 0
