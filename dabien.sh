@@ -52,7 +52,9 @@ echo network-manager-openconnect-gnome openconnect >> config/package-lists/insta
 echo chromium chromium-l10n >> config/package-lists/installer.list.chroot
 echo meld emacs vim-gtk3  >> config/package-lists/installer.list.chroot
 echo yad >> config/package-lists/installer.list.chroot
+echo live-build >> config/package-lists/installer.list.chroot
 echo snapd >> config/package-lists/installer.list.chroot
+echo broadcom-sta-dkms  >> config/package-lists/installer.list.chroot
 echo gthumb >> config/package-lists/installer.list.chroot
 echo libcurl4  libgconf-2-4 libssl1.1 >> config/package-lists/installer.list.chroot
 echo zenity xterm syslinux >> config/package-lists/installer.list.chroot
