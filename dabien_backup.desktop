@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=dabien Backup
-Comment=Backup to secondary Dabien key
-Exec=gksu /home/user/dabien/dabien_backup.sh
-Icon=/home/user/dabien/backup.svg
-Type=Application
-Path=/home/user/dabien
-Keywords=accessories;backup;system;dabien;clone;make;
