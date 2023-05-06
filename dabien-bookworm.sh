@@ -1,6 +1,7 @@
 #!/bin/bash
 #desktop=gnome
 desktop=$1
+export HOME=/home/overgaden
 dpkg -l cryptsetup 1>/dev/null 2>/dev/null || (echo cryptsetup not installed && exit -1)
 dpkg -l grub-efi-amd64 1>/dev/null 2>/dev/null || (echo grub-efi-amd64 not installed && exit -1)
 dpkg -l live-build 1>/dev/null 2>/dev/null || (echo live-build not installed && exit -1)
@@ -41,7 +42,7 @@ echo x2goclient x2goserver >> config/package-lists/installer.list.chroot
 echo gparted >> config/package-lists/installer.list.chroot
 echo calamares calamares-settings-debian  >> config/package-lists/installer.list.chroot
 echo gnome-software-plugin-flatpak flatpak  >> config/package-lists/installer.list.chroot
-echo rsync net-tools cryptsetup  >> config/package-lists/installer.list.chroot
+echo rsync net-tools cryptsetup cryptsetup-initramfs >> config/package-lists/installer.list.chroot
 echo git ufw ufw >> config/package-lists/installer.list.chroot
 echo myspell-da myspell-fr myspell-es myspell-nb  myspell-fo myspell-et myspell-lv myspell-nn  myspell-ru >> config/package-lists/installer.list.chroot
 echo keepassx >> config/package-lists/installer.list.chroot
