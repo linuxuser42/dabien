@@ -1,7 +1,7 @@
 #!/bin/bash
-#desktop=gnome
-desktop=$1
-export HOME=/home/overgaden
+desktop=gnome
+#desktop=$1
+export HOME=/home/bruger
 dpkg -l cryptsetup 1>/dev/null 2>/dev/null || (echo cryptsetup not installed && exit -1)
 dpkg -l grub-efi-amd64 1>/dev/null 2>/dev/null || (echo grub-efi-amd64 not installed && exit -1)
 dpkg -l live-build 1>/dev/null 2>/dev/null || (echo live-build not installed && exit -1)
@@ -36,6 +36,12 @@ xfce)
   echo task-mate-desktop task-danish task-danish-desktop > config/package-lists/desktop.list.chroot
   ;;
 esac  
+
+cat <<EOF > config/includes.installer/preseed.cfg
+### Localization
+# Preseeding only locale sets language, country and locale.
+d-i debian-installer/locale string da_DK
+EOF
 
 echo firmware-misc-nonfree >> config/package-lists/installer.list.chroot
 echo x2goclient x2goserver >> config/package-lists/installer.list.chroot
@@ -83,6 +89,11 @@ mkdir -p config/includes.chroot/etc/cryptsetup-initramfs
 cat <<EOF >config/includes.chroot/etc/cryptsetup-initramfs/conf-hook 
 CRYPTSETUP=y
 EOF
+cat <<EOF >config/hooks/live/99-enableflatpak.sh.hook.chroot
+#!/bin/sh
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+EOF
+chmod +rx config/hooks/live/99*
 #kommenter ud hvis du skal pille her med apt-get eller andet
 #bash
 lb config --initramfs live-boot
