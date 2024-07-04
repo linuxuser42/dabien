@@ -74,6 +74,8 @@ echo octave-control octave-image octave-io octave-optim octave-signal octave-sta
 lb config --bootappend-live "boot=live components persistence persistence-encryption=luks locales=da_DK.UTF-8 keyboard-layouts=dk "
 wget --no-check-certificate -O skel.tgz https://wwvaldemar.dk/misc/bookwormskel.tgz
 wget --no-check-certificate -O dabien_live_usb.sh https://raw.githubusercontent.com/linuxuser42/dabien/master/dabien_live_usb.sh
+wget --no-check-certificate -O dabien_live_sda.sh https://raw.githubusercontent.com/linuxuser42/dabien/master/dabien_live_sda.sh
+wget --no-check-certificate -O dabien-bookworm.sh https://raw.githubusercontent.com/linuxuser42/dabien/master/dabien-bookworm.sh
 mkdir -p config/bootloaders/grub-pc/
 wget --no-check-certificate -O config/bootloaders/grub-pc/splash.png https://raw.githubusercontent.com/linuxuser42/dabien/master/splash.dabien.png
 rm -rf /tmp/untar
@@ -83,7 +85,7 @@ rm -rf config/includes.chroot/*
 mkdir -p config/includes.chroot 
 mkdir -p config/includes.chroot/usr/sbin
 cp -rT /tmp/untar config/includes.chroot
-cp dabien_live_usb.sh config/includes.chroot/usr/sbin && chmod +rx config/includes.chroot/usr/sbin/dabien_live_usb.sh
+cp dabien_live_usb.sh dabien_live_sda.sh dabien-bookworm.sh config/includes.chroot/usr/sbin && chmod +rx config/includes.chroot/usr/sbin/dabien_live_*
 cp -rT /tmp/untar2/home/user config/includes.chroot/etc/skel
 mkdir -p config/includes.chroot/etc/cryptsetup-initramfs
 cat <<EOF >config/includes.chroot/etc/cryptsetup-initramfs/conf-hook 
