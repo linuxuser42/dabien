@@ -86,7 +86,9 @@ rm -rf config/includes.chroot/*
 mkdir -p config/includes.chroot 
 mkdir -p config/includes.chroot/usr/sbin
 cp -rT /tmp/untar config/includes.chroot
-cp opendcdiag dabien_live_usb.sh dabien_live_sda.sh dabien-bookworm.sh config/includes.chroot/usr/sbin && chmod +rx config/includes.chroot/usr/sbin/dabien_live_* opendcdiag
+cp opendcdiag dabien_live_usb.sh dabien_live_sda.sh dabien-bookworm.sh config/includes.chroot/usr/sbin && \
+  chmod a+rx config/includes.chroot/usr/sbin/opendcdiag && \
+  chmod +rx config/includes.chroot/usr/sbin/dabien_live_*  
 cp -rT /tmp/untar2/home/user config/includes.chroot/etc/skel
 mkdir -p config/includes.chroot/etc/cryptsetup-initramfs
 cat <<EOF >config/includes.chroot/etc/cryptsetup-initramfs/conf-hook 
