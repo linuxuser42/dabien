@@ -65,6 +65,7 @@ echo broadcom-sta-dkms  >> config/package-lists/installer.list.chroot
 echo gthumb >> config/package-lists/installer.list.chroot
 echo libcurl4  libgconf-2-4 libssl3 >> config/package-lists/installer.list.chroot
 echo zenity xterm syslinux >> config/package-lists/installer.list.chroot
+echo memtester >> config/package-lists/installer.list.chroot
 #echo zenity xterm syslinux grub-efi-amd64 >> config/package-lists/installer.list.chroot
 echo octave-control octave-image octave-io octave-optim octave-signal octave-statistics octave-arduino audacity >> config/package-lists/installer.list.chroot
 
