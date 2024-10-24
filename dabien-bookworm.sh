@@ -1,6 +1,6 @@
 #!/bin/bash
-desktop=gnome
-#desktop=$1
+#desktop=gnome
+desktop=$1
 export HOME=/home/bruger
 dpkg -l cryptsetup 1>/dev/null 2>/dev/null || (echo cryptsetup not installed && exit -1)
 dpkg -l grub-efi-amd64 1>/dev/null 2>/dev/null || (echo grub-efi-amd64 not installed && exit -1)
