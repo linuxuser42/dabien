@@ -4,6 +4,10 @@
 #  kvm -vga virtio -hdd /scratch/d12image.img -cdrom ~/Downloads/dabien-gnome-amd64-20241001.iso -m 8024 -smp 5 -bios /usr/share/qemu/OVMF.fd
 #   -- install the iso on the d12image.img
 #   -- modify /usr/sbin/dabien-bookworm.sh and run it as root with your favorite desktop as argument, e.g. gnome
+#   --- get the iso: sudo fdisk -lu /ssratch/d12image.img
+#   ---              sudo losetup -o 316669952 /dev/loop0 /scratch/d12image-chen.img
+#   ---              sudo mkdir /tmp/1 ; sudo mount /dev/loop0 /tmp/1; ls /tmp/1/home/bruger/liveimages-bookworm
+
 desktop=$1
 export HOME=/home/bruger
 dpkg -l cryptsetup 1>/dev/null 2>/dev/null || (echo cryptsetup not installed && exit -1)
