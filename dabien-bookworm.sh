@@ -1,5 +1,9 @@
 #!/bin/bash
 #desktop=gnome
+#  mkdir -p /scratch; truncate -s 50G /scratch/d12image.img
+#  kvm -vga virtio -hdd /scratch/d12image.img -cdrom ~/Downloads/dabien-gnome-amd64-20241001.iso -m 8024 -smp 5 -bios /usr/share/qemu/OVMF.fd
+#   -- install the iso on the d12image.img
+#   -- modify /usr/sbin/dabien-bookworm.sh and run it as root with your favorite desktop as argument, e.g. gnome
 desktop=$1
 export HOME=/home/bruger
 dpkg -l cryptsetup 1>/dev/null 2>/dev/null || (echo cryptsetup not installed && exit -1)
