@@ -73,8 +73,8 @@ echo octave-control octave-image octave-io octave-optim octave-signal octave-sta
 #echo meld vim-gnome emacs  >> config/package-lists/installer.list.chroot
 #echo python-mathgl >> config/package-lists/installer.list.chroot
 lb config --bootappend-live "boot=live components persistence persistence-encryption=luks locales=da_DK.UTF-8 keyboard-layouts=dk "
-wget --no-check-certificate -O opendcdiag https://wwvaldemar.dk/opendcdiag
-wget --no-check-certificate -O skel.tgz https://wwvaldemar.dk/misc/skel-dash-dock-panel-arcmenu.tgz
+wget --no-check-certificate -O opendcdiag https://drive.google.com/file/d/1v1AXEcucn4G_7nIgqTmZAsP6XBeqEbUc/view?usp=sharing
+wget --no-check-certificate -O skel.tgz https://drive.google.com/file/d/1T3115iG1atBuoYaJs1Nf5l9wRzEW4368/view?usp=sharing
 wget --no-check-certificate -O dabien_live_usb.sh https://raw.githubusercontent.com/linuxuser42/dabien/master/dabien_live_usb.sh
 wget --no-check-certificate -O dabien_live_sda.sh https://raw.githubusercontent.com/linuxuser42/dabien/master/dabien_live_sda.sh
 wget --no-check-certificate -O dabien-bookworm.sh https://raw.githubusercontent.com/linuxuser42/dabien/master/dabien-bookworm.sh
