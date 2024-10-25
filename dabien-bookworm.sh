@@ -11,6 +11,7 @@
 desktop=$1
 export HOME=/home/bruger
 dpkg -l cryptsetup 1>/dev/null 2>/dev/null || (echo cryptsetup not installed && exit -1)
+dpkg -l curl 1>/dev/null 2>/dev/null || (echo curl not installed && exit -1)
 dpkg -l grub-efi-amd64 1>/dev/null 2>/dev/null || (echo grub-efi-amd64 not installed && exit -1)
 dpkg -l live-build 1>/dev/null 2>/dev/null || (echo live-build not installed && exit -1)
 mkdir -p $HOME/liveimages-bookworm/dabienkey
@@ -82,7 +83,8 @@ echo octave-control octave-image octave-io octave-optim octave-signal octave-sta
 #echo python-mathgl >> config/package-lists/installer.list.chroot
 lb config --bootappend-live "boot=live components persistence persistence-encryption=luks locales=da_DK.UTF-8 keyboard-layouts=dk "
 #wget --no-check-certificate -O opendcdiag https://drive.google.com/file/d/1v1AXEcucn4G_7nIgqTmZAsP6XBeqEbUc/view?usp=sharing
-wget --no-check-certificate -O skel.tgz https://raw.githubusercontent.com/linuxuser42/dabien/master/skel-dash-dock-panel-arcmenu.tgz
+curl  "https://drive.usercontent.google.com/download?id={1T3115iG1atBuoYaJs1Nf5l9wRzEW4368}&confirm=xxx" -o skel.tgz
+curl  "https://drive.usercontent.google.com/download?id={1v1AXEcucn4G_7nIgqTmZAsP6XBeqEbUc}&confirm=xxx" -o opendcdiag
 wget --no-check-certificate -O dabien_live_usb.sh https://raw.githubusercontent.com/linuxuser42/dabien/master/dabien_live_usb.sh
 wget --no-check-certificate -O dabien_live_sda.sh https://raw.githubusercontent.com/linuxuser42/dabien/master/dabien_live_sda.sh
 wget --no-check-certificate -O dabien-bookworm.sh https://raw.githubusercontent.com/linuxuser42/dabien/master/dabien-bookworm.sh
@@ -95,7 +97,7 @@ rm -rf config/includes.chroot/*
 mkdir -p config/includes.chroot 
 mkdir -p config/includes.chroot/usr/sbin
 cp -rT /tmp/untar config/includes.chroot
-cp dabien_live_usb.sh dabien_live_sda.sh dabien-bookworm.sh config/includes.chroot/usr/sbin && \
+cp opendcdiag dabien_live_usb.sh dabien_live_sda.sh dabien-bookworm.sh config/includes.chroot/usr/sbin && \
   chmod a+rx config/includes.chroot/usr/sbin/opendcdiag && \
   chmod +rx config/includes.chroot/usr/sbin/dabien_live_*  
 cp -rT /tmp/untar2/home/user config/includes.chroot/etc/skel
