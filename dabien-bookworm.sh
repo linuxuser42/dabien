@@ -108,6 +108,7 @@ EOF
 cat <<EOF >config/hooks/live/99-enableflatpak.sh.hook.chroot
 #!/bin/sh
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak config --set show-unverified false
 EOF
 chmod +rx config/hooks/live/99*
 #kommenter ud hvis du skal pille her med apt-get eller andet
