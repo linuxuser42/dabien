@@ -67,7 +67,7 @@ echo tigervnc-viewer tigervnc-standalone-server >> config/package-lists/installe
 echo network-manager-openconnect-gnome openconnect >> config/package-lists/installer.list.chroot
 echo chromium chromium-l10n >> config/package-lists/installer.list.chroot
 echo meld emacs vim-gtk3  >> config/package-lists/installer.list.chroot
-echo yad >> config/package-lists/installer.list.chroot
+echo yad libgnome-menu-3-dev gir1.2-gmenu-3.0  >> config/package-lists/installer.list.chroot
 echo live-build >> config/package-lists/installer.list.chroot
 echo snapd >> config/package-lists/installer.list.chroot
 echo broadcom-sta-dkms  >> config/package-lists/installer.list.chroot
@@ -83,7 +83,7 @@ echo octave-control octave-image octave-io octave-optim octave-signal octave-sta
 #echo python-mathgl >> config/package-lists/installer.list.chroot
 lb config --bootappend-live "boot=live components persistence persistence-encryption=luks locales=da_DK.UTF-8 keyboard-layouts=dk "
 #wget --no-check-certificate -O opendcdiag https://drive.google.com/file/d/1v1AXEcucn4G_7nIgqTmZAsP6XBeqEbUc/view?usp=sharing
-curl  "https://drive.google.com/uc?export=download&id=1izqEi5sVFKd9daIiEwqevFvxF5mPzwfn" -o skel.tgz
+wget  "https://drive.google.com/uc?export=download&id=1izqEi5sVFKd9daIiEwqevFvxF5mPzwfn" -O skel.tgz
 curl  "https://drive.usercontent.google.com/download?id={1v1AXEcucn4G_7nIgqTmZAsP6XBeqEbUc}&confirm=xxx" -o opendcdiag
 wget --no-check-certificate -O dabien_live_usb.sh https://raw.githubusercontent.com/linuxuser42/dabien/master/dabien_live_usb.sh
 wget --no-check-certificate -O dabien_live_sda.sh https://raw.githubusercontent.com/linuxuser42/dabien/master/dabien_live_sda.sh
