@@ -9,7 +9,8 @@
 #   ---              sudo mkdir /tmp/1 ; sudo mount /dev/loop0 /tmp/1; ls /tmp/1/home/bruger/liveimages-trixie
 
 desktop=$1
-export HOME=/home/bruger
+mount -o remount,exec,dev /home
+export HOME=/home/liveimages
 dpkg -l cryptsetup 1>/dev/null 2>/dev/null || (echo cryptsetup not installed && exit -1)
 dpkg -l curl 1>/dev/null 2>/dev/null || (echo curl not installed && exit -1)
 dpkg -l grub-efi-amd64 1>/dev/null 2>/dev/null || (echo grub-efi-amd64 not installed && exit -1)
@@ -58,21 +59,25 @@ echo gparted >> config/package-lists/installer.list.chroot
 echo calamares calamares-settings-debian  >> config/package-lists/installer.list.chroot
 echo gnome-software-plugin-flatpak flatpak  >> config/package-lists/installer.list.chroot
 echo rsync net-tools cryptsetup cryptsetup-initramfs >> config/package-lists/installer.list.chroot
-echo git ufw ufw >> config/package-lists/installer.list.chroot
+echo git gufw ufw >> config/package-lists/installer.list.chroot
 echo myspell-da myspell-fr myspell-es myspell-nb  myspell-fo myspell-et myspell-nn  >> config/package-lists/installer.list.chroot
 echo keepassx >> config/package-lists/installer.list.chroot
 echo vlc x264 >> config/package-lists/installer.list.chroot
 echo cups >> config/package-lists/installer.list.chroot
+echo postfix >> config/package-lists/installer.list.chroot
 echo tigervnc-viewer tigervnc-standalone-server >> config/package-lists/installer.list.chroot
 echo network-manager-openconnect-gnome openconnect >> config/package-lists/installer.list.chroot
 echo chromium chromium-l10n >> config/package-lists/installer.list.chroot
 echo meld emacs vim-gtk3  >> config/package-lists/installer.list.chroot
-echo yad libgnome-menu-3-dev gir1.2-gmenu-3.0  >> config/package-lists/installer.list.chroot
+echo yad libgnome-menu-3-dev gir1.2-gmenu-3.0 >> config/package-lists/installer.list.chroot
 echo live-build >> config/package-lists/installer.list.chroot
 echo snapd >> config/package-lists/installer.list.chroot
+export imagever=`ls /usr/lib/modules |grep 6.12 | tail -1`
+echo linux-headers-${imagever}  >> config/package-lists/installer.list.chroot
 echo broadcom-sta-dkms  >> config/package-lists/installer.list.chroot
+echo firmware-amd-graphics firmware-iwlwifi  >> config/package-lists/installer.list.chroot
 echo gthumb >> config/package-lists/installer.list.chroot
-echo libcurl4  libssl3 >> config/package-lists/installer.list.chroot
+echo libcurl4 libssl3 >> config/package-lists/installer.list.chroot
 echo zenity xterm syslinux >> config/package-lists/installer.list.chroot
 echo memtester >> config/package-lists/installer.list.chroot
 #echo zenity xterm syslinux grub-efi-amd64 >> config/package-lists/installer.list.chroot
@@ -82,7 +87,7 @@ echo octave-control octave-image octave-io octave-optim octave-signal octave-sta
 #echo meld vim-gnome emacs  >> config/package-lists/installer.list.chroot
 #echo python-mathgl >> config/package-lists/installer.list.chroot
 lb config --bootappend-live "boot=live components persistence persistence-encryption=luks locales=da_DK.UTF-8 keyboard-layouts=dk "
-#wget --no-check-certificate -O opendcdiag https://drive.google.com/file/d/1v1AXEcucn4G_7nIgqTmZAsP6XBeqEbUc/view?usp=sharing
+wget --no-check-certificate -O opendcdiag https://drive.google.com/file/d/1v1AXEcucn4G_7nIgqTmZAsP6XBeqEbUc/view?usp=sharing
 wget  "https://drive.google.com/uc?export=download&id=1izqEi5sVFKd9daIiEwqevFvxF5mPzwfn" -O skel.tgz
 curl  "https://drive.usercontent.google.com/download?id={1v1AXEcucn4G_7nIgqTmZAsP6XBeqEbUc}&confirm=xxx" -o opendcdiag
 wget --no-check-certificate -O dabien_live_usb.sh https://raw.githubusercontent.com/linuxuser42/dabien/master/dabien_live_usb.sh
@@ -97,19 +102,35 @@ rm -rf config/includes.chroot/*
 mkdir -p config/includes.chroot 
 mkdir -p config/includes.chroot/usr/sbin
 cp -rT /tmp/untar config/includes.chroot
-cp opendcdiag dabien_live_usb.sh dabien_live_sda.sh dabien-trixie.sh config/includes.chroot/usr/sbin && \
-  chmod a+rx config/includes.chroot/usr/sbin/opendcdiag && \
-  chmod +rx config/includes.chroot/usr/sbin/dabien_live_*  
+cp $0 config/includes.chroot/usr/sbin
+cp dabien_live_usb.sh config/includes.chroot/usr/sbin && chmod +rx config/includes.chroot/usr/sbin/dabien_live_usb.sh
 cp -rT /tmp/untar2/home/user config/includes.chroot/etc/skel
 mkdir -p config/includes.chroot/etc/cryptsetup-initramfs
 cat <<EOF >config/includes.chroot/etc/cryptsetup-initramfs/conf-hook 
 CRYPTSETUP=y
 EOF
+
+
+mkdir -p config/hooks/live 
+mkdir -p config/hooks/normal 
+mkdir -p config/includes.chroot/lib/live/config
+
+## we need to rerun broadcom dkms install with headers otherwise its not done!
+cat <<EOF >config/hooks/normal/99999-broadcomdkms.hook.chroot
+export imagever=`ls /usr/lib/modules |grep 6.12 | tail -1`
+apt-get install -y linux-headers-\${imagever}
+dpkg-reconfigure broadcom-sta-dkms
+update-initramfs -u -k \${imagever}
+EOF
+chmod 755 config/hooks/normal/99999-broadcomdkms.hook.chroot
+
 cat <<EOF >config/hooks/live/99-enableflatpak.sh.hook.chroot
 #!/bin/sh
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 EOF
 chmod +rx config/hooks/live/99*
+
+
 #kommenter ud hvis du skal pille her med apt-get eller andet
 #bash
 lb config --initramfs live-boot
