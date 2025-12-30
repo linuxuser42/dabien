@@ -81,14 +81,19 @@ echo libcurl4 libssl3 >> config/package-lists/installer.list.chroot
 echo zenity xterm syslinux >> config/package-lists/installer.list.chroot
 echo memtester >> config/package-lists/installer.list.chroot
 #echo zenity xterm syslinux grub-efi-amd64 >> config/package-lists/installer.list.chroot
-echo octave-control octave-image octave-io octave-optim octave-signal octave-statistics octave-arduino audacity >> config/package-lists/installer.list.chroot
 
 #echo rsync rsnapshot net-tools cryptsetup ecryptfs-utils >> config/package-lists/installer.list.chroot
 #echo meld vim-gnome emacs  >> config/package-lists/installer.list.chroot
 #echo python-mathgl >> config/package-lists/installer.list.chroot
 lb config --bootappend-live "boot=live components persistence persistence-encryption=luks locales=da_DK.UTF-8 keyboard-layouts=dk "
 wget --no-check-certificate -O opendcdiag https://drive.google.com/file/d/1v1AXEcucn4G_7nIgqTmZAsP6XBeqEbUc/view?usp=sharing
+if [ "$desktop" = "gnome" ]; then
 wget  "https://drive.google.com/uc?export=download&id=1izqEi5sVFKd9daIiEwqevFvxF5mPzwfn" -O skel.tgz
+echo octave-control octave-image octave-io octave-optim octave-signal octave-statistics octave-arduino audacity >> config/package-lists/installer.list.chroot
+fi
+if [ "$desktop" = "xfce" ]; then
+wget "https://drive.google.com/uc?export=download&id=1fXzMdXFSoF011tM_QWmMMDameysU8oQ-" -O skel.tgz
+fi
 curl  "https://drive.usercontent.google.com/download?id={1v1AXEcucn4G_7nIgqTmZAsP6XBeqEbUc}&confirm=xxx" -o opendcdiag
 wget --no-check-certificate -O dabien_live_usb.sh https://raw.githubusercontent.com/linuxuser42/dabien/master/dabien_live_usb.sh
 wget --no-check-certificate -O dabien_live_sda.sh https://raw.githubusercontent.com/linuxuser42/dabien/master/dabien_live_sda.sh
