@@ -8,6 +8,9 @@
 #   ---              sudo losetup -o 316669952 /dev/loop0 /scratch/d12image-chen.img
 #   ---              sudo mkdir /tmp/1 ; sudo mount /dev/loop0 /tmp/1; ls /tmp/1/home/bruger/liveimages-trixie
 
+# be sure umask allows others than root to login to chrooti env...
+umask 002
+
 desktop=$1
 mount -o remount,exec,dev /home
 export HOME=/home/liveimages
