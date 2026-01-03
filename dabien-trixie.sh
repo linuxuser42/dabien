@@ -89,7 +89,7 @@ echo memtester >> config/package-lists/installer.list.chroot
 #echo rsync rsnapshot net-tools cryptsetup ecryptfs-utils >> config/package-lists/installer.list.chroot
 #echo meld vim-gnome emacs  >> config/package-lists/installer.list.chroot
 #echo python-mathgl >> config/package-lists/installer.list.chroot
-lb config --bootappend-live "boot=live components persistence persistence-encryption=luks locales=da_DK.UTF-8 keyboard-layouts=dk "
+lb config --bootappend-live "boot=live components persistence persistence-encryption=luks locales=da_DK.UTF-8 keyboard-layouts=dk timezone=Europe/Copenhagen"
 wget --no-check-certificate -O opendcdiag https://drive.google.com/file/d/1v1AXEcucn4G_7nIgqTmZAsP6XBeqEbUc/view?usp=sharing
 if [ "$desktop" = "gnome" ]; then
 wget  "https://drive.google.com/uc?export=download&id=1izqEi5sVFKd9daIiEwqevFvxF5mPzwfn" -O skel.tgz
@@ -140,7 +140,7 @@ EOF
 chmod +rx config/hooks/live/99*
 
 # in Copenhagen tz
-cat <<EOF >config/hooks/live/98-enableflatpak.sh.hook.chroot
+cat <<EOF >config/hooks/live/98-fixtz.sh.hook.chroot
 #!/bin/sh
 echo "Europe/Copenhagen" > /etc/timezone
 ln -sf /usr/share/zoneinfo/Europe/Copenhagen /etc/localtime
