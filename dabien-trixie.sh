@@ -50,6 +50,7 @@ xfce)
   ;;
 esac  
 
+
 cat <<EOF > config/includes.installer/preseed.cfg
 ### Localization
 # Preseeding only locale sets language, country and locale.
@@ -137,6 +138,14 @@ cat <<EOF >config/hooks/live/99-enableflatpak.sh.hook.chroot
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 EOF
 chmod +rx config/hooks/live/99*
+
+# in Copenhagen tz
+cat <<EOF >config/hooks/live/98-enableflatpak.sh.hook.chroot
+#!/bin/sh
+echo "Europe/Copenhagen" > /etc/timezone
+ln -sf /usr/share/zoneinfo/Europe/Copenhagen /etc/localtime
+EOF
+chmod +rx config/hooks/live/98*
 
 
 #kommenter ud hvis du skal pille her med apt-get eller andet
