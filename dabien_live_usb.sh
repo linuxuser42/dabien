@@ -22,7 +22,7 @@ zenity --title "Approve USB key device"  --question --text "Scanned device set t
 
 zenity --title "Clone everything?"  --question --text "Clone everything including the personal data and installed programs?" && cloneeverything=1
 if [ ! -z "${cloneeverything}" ] ; then
-  mounted_persistence_dir="/run/live/overlay/"	
+  mounted_persistence_dir=`mount |grep ext4 |grep persistence | awk '{print $3}'`
   if [ ! -d "${mounted_persistence_dir}/rw" ]; then
     zenity --title "ERROR - persistence not found"  --question --text "Cannot lookup ${mounted_persistence_dir}/rw"
     exit 1
