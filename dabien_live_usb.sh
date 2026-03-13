@@ -22,9 +22,9 @@ zenity --title "Approve USB key device"  --question --text "Scanned device set t
 
 zenity --title "Clone everything?"  --question --text "Clone everything including the personal data and installed programs?" && cloneeverything=1
 if [ ! -z "${cloneeverything}" ] ; then
-  mounted_presistence_dir=`mount |grep /lib/live/mount/persistence/ | awk '{print $3}'`	
-  if [ ! -d "${mounted_presistence_dir}/rw" ]; then
-    zenity --title "ERROR - persistence not found"  --question --text "Cannot lookup ${mounted_presistence_dir}/rw"
+  mounted_persistence_dir="/run/live/overlay/"	
+  if [ ! -d "${mounted_persistence_dir}/rw" ]; then
+    zenity --title "ERROR - persistence not found"  --question --text "Cannot lookup ${mounted_persistence_dir}/rw"
     exit 1
   fi
   zenity --info --text "Cloning everything" --timeout 2
@@ -54,8 +54,8 @@ zenity --title "Approve USB key device"  --question --text "This nukes data on $
 echo "10" ; sleep 1
 echo "# Creating partitions..." ; sleep 1
 parted ${dev} --script mktable gpt
-parted ${dev} --script mkpart live fat32 10MiB 3GiB
-parted ${dev} --script mkpart persistence ext4 3GiB 100%
+parted ${dev} --script mkpart live fat32 10MiB 6GiB
+parted ${dev} --script mkpart persistence ext4 6GiB 100%
 parted ${dev} --script set 1 msftdata on
 echo "20" ; sleep 5
 echo "# Syncing and probing new partitions"
@@ -74,7 +74,7 @@ echo "# Creating temporary mount locations"
 tmp=$(mktemp --tmpdir --directory debianlive.XXXXX)
 tmplive=${tmp}/live
 tmppersistence=${tmp}/persistence
-tmpiso=/lib/live/mount/medium/
+tmpiso=/run/live/medium/
 tmpall="${tmplive} ${tmppersistence} "
 echo "60" ; sleep 1
 echo "# Mounting resources"
@@ -92,15 +92,18 @@ rsync -avH ${tmpiso}/ ${tmplive}/
 sync
 echo "75" ; sleep 1
 echo "# Creating persistence.conf"
-if [ ! -z "${cloneeverything}" ] && [ -d "${mounted_presistence_dir}/rw" ] && [ -d "${tmppersistence}/" ] ; then
+if [ -d "${tmppersistence}/" ] ; then
+echo "/ union" > ${tmppersistence}/persistence.conf
+fi
+#rsync all installed stuff from rw
+if [ ! -z "${cloneeverything}" ] && [ -d "${mounted_persistence_dir}/rw" ] && [ -d "${tmppersistence}/" ] ; then
   echo "77" ; sleep 1
-  echo "# Syncing ${mounted_presistence_dir}/ to ${tmppersistence}/ ..."
-  rsync -avH --delete ${mounted_presistence_dir}/ ${tmppersistence}/
-else
-  echo "/ union" > ${tmppersistence}/persistence.conf
+  echo "# Syncing ${mounted_persistence_dir}/ to ${tmppersistence}/ ..."
+  rsync -avH --delete ${mounted_persistence_dir}/ ${tmppersistence}/
 fi
 echo "85" ; sleep 1
 echo "# Cleaning up"
+sync
 umount ${tmpall}
 umount ${tmppersistence}
 cryptsetup close dev2
