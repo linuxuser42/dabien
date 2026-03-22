@@ -57,6 +57,7 @@ cat <<EOF > config/includes.installer/preseed.cfg
 d-i debian-installer/locale string da_DK
 EOF
 
+echo plymouth plymouth-themes >> config/package-lists/installer.list.chroot
 echo firmware-misc-nonfree >> config/package-lists/installer.list.chroot
 echo x2goclient x2goserver >> config/package-lists/installer.list.chroot
 echo gparted >> config/package-lists/installer.list.chroot
@@ -89,10 +90,12 @@ echo memtester >> config/package-lists/installer.list.chroot
 #echo rsync rsnapshot net-tools cryptsetup ecryptfs-utils >> config/package-lists/installer.list.chroot
 #echo meld vim-gnome emacs  >> config/package-lists/installer.list.chroot
 #echo python-mathgl >> config/package-lists/installer.list.chroot
-lb config --bootappend-live "boot=live components persistence persistence-encryption=luks locales=da_DK.UTF-8 keyboard-layouts=dk timezone=Europe/Copenhagen"
+lb config --bootappend-live "boot=live components persistence persistence-encryption=luks locales=da_DK.UTF-8 keyboard-layouts=dk timezone=Europe/Copenhagen quiet splash"
 wget --no-check-certificate -O opendcdiag https://drive.google.com/file/d/1v1AXEcucn4G_7nIgqTmZAsP6XBeqEbUc/view?usp=sharing
+
 if [ "$desktop" = "gnome" ]; then
 wget  "https://drive.google.com/uc?export=download&id=1izqEi5sVFKd9daIiEwqevFvxF5mPzwfn" -O skel.tgz
+wget -O make-persistence.deb --no-check-certificate https://raw.githubusercontent.com/linuxuser42/dabien/refs/heads/master/make-persistence.deb
 echo octave-control octave-image octave-io octave-optim octave-signal octave-statistics octave-arduino audacity >> config/package-lists/installer.list.chroot
 fi
 if [ "$desktop" = "xfce" ]; then
@@ -113,6 +116,7 @@ mkdir -p config/includes.chroot/usr/sbin
 cp -rT /tmp/untar config/includes.chroot
 cp $0 config/includes.chroot/usr/sbin
 cp dabien_live_usb.sh config/includes.chroot/usr/sbin && chmod +rx config/includes.chroot/usr/sbin/dabien_live_usb.sh
+cp make-persistence.deb config/includes.chroot/ 
 cp -rT /tmp/untar2/home/user config/includes.chroot/etc/skel
 mkdir -p config/includes.chroot/etc/cryptsetup-initramfs
 cat <<EOF >config/includes.chroot/etc/cryptsetup-initramfs/conf-hook 
@@ -146,6 +150,13 @@ echo "Europe/Copenhagen" > /etc/timezone
 ln -sf /usr/share/zoneinfo/Europe/Copenhagen /etc/localtime
 EOF
 chmod +rx config/hooks/live/98*
+
+# get the make-persistence package
+cat <<EOF >config/hooks/live/97-make-persistence.sh.hook.chroot
+#!/bin/sh
+dpkg -i /make-persistence.deb && rm /make-persistence.deb
+EOF
+chmod +rx config/hooks/live/97*
 
 
 #kommenter ud hvis du skal pille her med apt-get eller andet
