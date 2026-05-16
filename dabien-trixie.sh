@@ -158,6 +158,12 @@ dpkg -i /make-persistence.deb && rm /make-persistence.deb
 EOF
 chmod +rx config/hooks/live/97*
 
+cat <<EOF >config/hooks/live/95-fix-cpfail-and-dirtyfrag.sh.hook.chroot
+echo "install algif_aead /bin/false" > /etc/modprobe.d/disable-algif-aead.conf
+rmmod algif_aead 2>/dev/null || true
+sh -c "printf 'install esp4 /bin/false\ninstall esp6 /bin/false\ninstall rxrpc /bin/false\n' > /etc/modprobe.d/dirtyfrag.conf; rmmod esp4 esp6 rxrpc 2>/dev/null; echo 3 > /proc/sys/vm/drop_caches; true"
+EOF
+chmod +rx config/hooks/live/95*
 
 #kommenter ud hvis du skal pille her med apt-get eller andet
 #bash
