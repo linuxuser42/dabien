@@ -96,6 +96,7 @@ wget --no-check-certificate -O opendcdiag https://drive.google.com/file/d/1v1AXE
 if [ "$desktop" = "gnome" ]; then
 wget  "https://drive.google.com/uc?export=download&id=1izqEi5sVFKd9daIiEwqevFvxF5mPzwfn" -O skel.tgz
 wget -O make-persistence.deb --no-check-certificate https://raw.githubusercontent.com/linuxuser42/dabien/refs/heads/master/make-persistence.deb
+wget -O make-bootstrap.deb --no-check-certificate https://raw.githubusercontent.com/linuxuser42/dabien/refs/heads/master/make-bootstrap.deb
 echo octave-control octave-image octave-io octave-optim octave-signal octave-statistics octave-arduino audacity >> config/package-lists/installer.list.chroot
 fi
 if [ "$desktop" = "xfce" ]; then
@@ -116,7 +117,7 @@ mkdir -p config/includes.chroot/usr/sbin
 cp -rT /tmp/untar config/includes.chroot
 cp $0 config/includes.chroot/usr/sbin
 cp dabien_live_usb.sh config/includes.chroot/usr/sbin && chmod +rx config/includes.chroot/usr/sbin/dabien_live_usb.sh
-cp make-persistence.deb config/includes.chroot/ 
+cp make-persistence.deb make-bootstrap.deb config/includes.chroot/ 
 cp -rT /tmp/untar2/home/user config/includes.chroot/etc/skel
 mkdir -p config/includes.chroot/etc/cryptsetup-initramfs
 cat <<EOF >config/includes.chroot/etc/cryptsetup-initramfs/conf-hook 
@@ -151,10 +152,11 @@ ln -sf /usr/share/zoneinfo/Europe/Copenhagen /etc/localtime
 EOF
 chmod +rx config/hooks/live/98*
 
-# get the make-persistence package
+# get the make-persistence and make-bootstrap package
 cat <<EOF >config/hooks/live/97-make-persistence.sh.hook.chroot
 #!/bin/sh
 dpkg -i /make-persistence.deb && rm /make-persistence.deb
+dpkg -i /make-bootstrap.deb && rm /make-bootstrap.deb
 EOF
 chmod +rx config/hooks/live/97*
 
