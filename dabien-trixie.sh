@@ -77,7 +77,7 @@ echo meld emacs vim-gtk3  >> config/package-lists/installer.list.chroot
 echo yad libgnome-menu-3-dev gir1.2-gmenu-3.0 >> config/package-lists/installer.list.chroot
 echo live-build >> config/package-lists/installer.list.chroot
 echo snapd >> config/package-lists/installer.list.chroot
-export imagever=`ls /usr/lib/modules |grep 6.12 | tail -1`
+export imagever=`ls /usr/lib/modules | head -1`
 echo linux-headers-${imagever}  >> config/package-lists/installer.list.chroot
 echo broadcom-sta-dkms  >> config/package-lists/installer.list.chroot
 echo firmware-amd-graphics firmware-iwlwifi  >> config/package-lists/installer.list.chroot
@@ -131,7 +131,7 @@ mkdir -p config/includes.chroot/lib/live/config
 
 ## we need to rerun broadcom dkms install with headers otherwise its not done!
 cat <<EOF >config/hooks/normal/99999-broadcomdkms.hook.chroot
-export imagever=`ls /usr/lib/modules |grep 6.12 | tail -1`
+export imagever=`ls /usr/lib/modules |head -1`
 apt-get install -y linux-headers-\${imagever}
 dpkg-reconfigure broadcom-sta-dkms
 update-initramfs -u -k \${imagever}
