@@ -77,7 +77,7 @@ echo meld emacs vim-gtk3  >> config/package-lists/installer.list.chroot
 echo yad libgnome-menu-3-dev gir1.2-gmenu-3.0 >> config/package-lists/installer.list.chroot
 echo live-build >> config/package-lists/installer.list.chroot
 echo snapd >> config/package-lists/installer.list.chroot
-export imagever=`ls /usr/lib/modules | head -1`
+export imagever=`ls /usr/lib/modules | sort -rn | head -1`
 echo linux-headers-${imagever}  >> config/package-lists/installer.list.chroot
 echo broadcom-sta-dkms  >> config/package-lists/installer.list.chroot
 echo firmware-amd-graphics firmware-iwlwifi  >> config/package-lists/installer.list.chroot
@@ -143,7 +143,6 @@ cat <<EOF >config/hooks/live/99-enableflatpak.sh.hook.chroot
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 EOF
 chmod +rx config/hooks/live/99*
-
 # in Copenhagen tz
 cat <<EOF >config/hooks/live/98-fixtz.sh.hook.chroot
 #!/bin/sh
