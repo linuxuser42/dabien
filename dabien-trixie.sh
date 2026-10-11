@@ -131,12 +131,31 @@ mkdir -p config/includes.chroot/lib/live/config
 
 ## we need to rerun broadcom dkms install with headers otherwise its not done!
 cat <<EOF >config/hooks/normal/99999-broadcomdkms.hook.chroot
-export imagever=`ls /usr/lib/modules |head -1`
+export imagever=`ls /usr/lib/modules | sort -rn | head -1`
 apt-get install -y linux-headers-\${imagever}
 dpkg-reconfigure broadcom-sta-dkms
 update-initramfs -u -k \${imagever}
 EOF
 chmod 755 config/hooks/normal/99999-broadcomdkms.hook.chroot
+
+
+cat <<'EOF' > config/hooks/live/999999-remove-old-kernels.hook.chroot
+#!/bin/sh
+set -e
+
+KEEP=$(dpkg -l 'linux-image-*' | awk '/^ii/{print $2}' | sort -V | tail -1)
+
+for KERNEL in $(dpkg -l 'linux-image-*' | awk '/^ii/{print $2}')
+do
+    [ "$KERNEL" = "$KEEP" ] && continue
+
+    echo "Removing old kernel: $KERNEL"
+    dpkg --purge "$KERNEL" || true
+done
+EOF
+
+chmod 555 config/hooks/live/999999-remove-old-kernels.hook.chroot
+
 
 cat <<EOF >config/hooks/live/99-enableflatpak.sh.hook.chroot
 #!/bin/sh
@@ -166,8 +185,6 @@ sh -c "printf 'install esp4 /bin/false\ninstall esp6 /bin/false\ninstall rxrpc /
 EOF
 chmod +rx config/hooks/live/95*
 
-#kommenter ud hvis du skal pille her med apt-get eller andet
-#bash
 lb config --initramfs live-boot
 mkdir -p config/includes.chroot/usr/share/applications 
 lb build
